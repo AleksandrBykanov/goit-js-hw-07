@@ -15,24 +15,22 @@ controls.create.addEventListener("click", createBoxes);
 controls.destroy.addEventListener("click", destroyBoxes);
 
 function createBoxes(amount) {
+  destroyBoxes();
+  const elements = [];
   amount = controls.input.value;
   if (amount > 0 && amount < 101) {
-    for (let i = 0; i < +amount; i += 1) {
-      controls.result.insertAdjacentHTML(
-        "beforeend",
-        `<div style="width: ${i * 10 + 30}px;
-          height: ${i * 10 + 30}px;
-          background-color: ${getRandomHexColor()};
-          ">
-          ${i + 1}
-        </div >`
-      );
-    }
+    for (let i = 0; i < amount; i += 1) {
+      const div = document.createElement('div');
+      const size = 30 + i * 10;
+      div.style.width = `${size}px`;
+      div.style.height = `${size}px`;
+      div.style.background = getRandomHexColor();
+      div.textContent = `${i + 1}`;
+      elements.push(div);
+    };
     controls.input.value = "";
-  } else {
-    controls.input.value = "";
-    return alert("Число має бути в межах від 1 до 100 включно.");
-  }
+  } 
+  controls.result.append(...elements); 
 }
 
 function destroyBoxes() {
